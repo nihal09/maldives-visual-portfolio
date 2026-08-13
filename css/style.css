@@ -147,7 +147,7 @@ figure:hover img,
 figure:hover video { transform: scale(1.04); }
 
 /* offscreen sections are skipped by the compositor */
-.hero, .section, .closing, .marquee {
+.hero, .section, .marquee {
   content-visibility: auto;
   contain-intrinsic-size: auto 100vh;
 }
