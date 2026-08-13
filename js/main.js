@@ -248,4 +248,20 @@
   window.addEventListener("resize", onScroll, { passive: true });
   setInterval(function () { checkVisibility(); tourCheck(); }, 650);
   rafInit();
+
+  /* iOS quirk: kickstart muted autoplay on first interaction */
+  var touchStarted = false;
+  function kickstart() {
+    if (touchStarted) return;
+    touchStarted = true;
+    videos.forEach(function (v) {
+      if (v.paused) {
+        var pr = v.play();
+        if (pr) pr.catch(function () {});
+      }
+    });
+  }
+  ["touchstart", "pointerdown", "scroll"].forEach(function (evt) {
+    window.addEventListener(evt, kickstart, { passive: true, once: true });
+  });
 })();
