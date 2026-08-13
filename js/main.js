@@ -264,4 +264,16 @@
   ["touchstart", "pointerdown", "scroll"].forEach(function (evt) {
     window.addEventListener(evt, kickstart, { passive: true, once: true });
   });
+
+  /* iOS quirk: try to play as soon as each video has data, so the hero
+     starts on page load instead of showing a play button */
+  videos.forEach(function (v) {
+    v.addEventListener("loadeddata", function () {
+      if (v.paused && v.getAttribute("data-hovered") !== "1") {
+        var pr = v.play();
+        if (pr) pr.catch(function () {});
+      }
+    });
+  });
+  window.addEventListener("load", kickstart);
 })();
