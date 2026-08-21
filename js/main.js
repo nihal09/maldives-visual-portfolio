@@ -110,17 +110,19 @@
     tourCheck();
   }
 
-  /* ---------- side rail progress ---------- */
+  /* ---------- side rail + scroll progress ---------- */
   const railNum = document.querySelector(".rail-num");
   const railLine = document.querySelector(".rail-line");
+  const progress = document.querySelector(".scroll-progress span");
   const sections = Array.prototype.slice.call(document.querySelectorAll("[data-section]"));
   const hero = document.querySelector(".hero");
 
   function updateRail() {
-    if (!railNum) return;
     const doc = document.documentElement;
     const max = doc.scrollHeight - window.innerHeight;
-    const p = max > 0 ? window.scrollY / max : 0;
+    const p = max > 0 ? Math.min(1, Math.max(0, window.scrollY / max)) : 0;
+    if (progress) progress.style.transform = "scaleX(" + p + ")";
+    if (!railNum) return;
     if (railLine) railLine.style.transform = "scaleY(" + Math.min(1, Math.max(0.001, p)) + ")";
 
     let current = 1;
